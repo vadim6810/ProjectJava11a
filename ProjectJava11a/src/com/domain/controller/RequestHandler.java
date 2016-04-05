@@ -47,6 +47,7 @@ private HttpServletResponse setHeaders(HttpServletResponse response) {
 	return response;
 }
 
+
 //private HttpServletResponse setCookie(HttpServletResponse response, String name, String value, int expDate) {
 //	Cookie cookie = new Cookie(name, value);
 //	cookie.setMaxAge((int) TimeUnit.DAYS.toSeconds(expDate));
