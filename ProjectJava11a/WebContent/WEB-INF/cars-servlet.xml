@@ -25,4 +25,5 @@
     <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
     </bean> 
     <import resource="controllers.xml"/>
+    <mvc:resources mapping="/frontend/**" location="/WEB-INF/frontend/" />
 </beans>
