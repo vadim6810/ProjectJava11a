@@ -39,12 +39,12 @@ public class ServicesDirectory {
 		return false;
 	}
 
-	public boolean addServiceType(Map.Entry<String, HashSet<String>> service) {
+	public boolean addServiceType(String service, Set<String> subServices) {
 		if (!servicesDirectory.containsKey(service)) {
-			servicesDirectory.put(service.getKey(), service.getValue());
+			servicesDirectory.put(service, subServices);
 			return true;
 		}
-		servicesDirectory.put(service.getKey(), service.getValue());
+		servicesDirectory.put(service, subServices);
 		return false;
 	}
 
