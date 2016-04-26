@@ -1,8 +1,9 @@
 package com.domain.dao;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ServicesDirectory {
+public class ServicesDirectory implements Serializable {
 	Map<String, Set<String>> servicesDirectory;
 
 	public ServicesDirectory() {
