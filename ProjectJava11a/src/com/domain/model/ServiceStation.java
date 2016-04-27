@@ -1,4 +1,4 @@
-package com.domain.dao;
+package com.domain.model;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +36,7 @@ public class ServiceStation {
 	String avatar;
 	float rating = 0;
 	int nRates = 0;
+	// need annotation Temporal?
 	Map<Date, String> comments = new HashMap<Date, String>();
 	@ManyToMany
 	Set<TenderRequest> tenders = new HashSet<TenderRequest>();

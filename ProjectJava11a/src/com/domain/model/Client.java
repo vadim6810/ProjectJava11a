@@ -1,4 +1,4 @@
-package com.domain.dao;
+package com.domain.model;
 
 import java.util.HashSet;
 import java.util.Set;

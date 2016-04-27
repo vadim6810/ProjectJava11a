@@ -1,6 +1,8 @@
-package com.domain.dao;
+package com.domain.model;
 
-public class Vehicle {
+import java.io.Serializable;
+
+public class Vehicle implements Serializable {
 	String vendor;
 	String model;
 	String transmissionType;

@@ -1,4 +1,4 @@
-package com.domain.dao;
+package com.domain.model;
 
 import java.util.Date;
 import java.util.Map;

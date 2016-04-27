@@ -1,4 +1,4 @@
-package com.domain.model;
+package com.domain.dao;
 
 import com.domain.interfaces.IPersistenceController;
 
