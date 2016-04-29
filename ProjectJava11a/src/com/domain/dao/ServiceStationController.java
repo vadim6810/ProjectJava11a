@@ -1,5 +1,7 @@
 package com.domain.dao;
 
+import javax.persistence.Query;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,6 +11,7 @@ import com.domain.model.ServiceStation;
 public class ServiceStationController implements IServiceStation {
 
 	@Override
+	
 	public boolean addServiceStation(ServiceStation servStat) {
 		// TODO Auto-generated method stub
 		return false;
@@ -21,13 +24,37 @@ public class ServiceStationController implements IServiceStation {
 	}
 
 	@Override
-	public Iterable<ServiceStation> getServiceStationByArea(String area) {
+	public Iterable<ServiceStation> getServiceStationByArea(String...region) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Iterable<ServiceStation> getServiceStationByCity(String city) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterable<ServiceStation> getServiceStationByServiceTypes(String carServiceTypes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterable<ServiceStation> getServiceStationByVenicleTypes(String vehicleType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterable<ServiceStation> getServiceStationByVenicleServiceTypes(String vehicleType, String carServiceTypes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceStation editServiceStation(ServiceStation servStat) {
 		// TODO Auto-generated method stub
 		return null;
 	}
