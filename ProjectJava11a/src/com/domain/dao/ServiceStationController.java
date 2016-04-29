@@ -15,7 +15,7 @@ public class ServiceStationController implements IServiceStation {
 	}
 
 	@Override
-	public boolean removeServiceStation(int id) {
+	public boolean removeServiceStation(String serviceEmail) {
 		// TODO Auto-generated method stub
 		return false;
 	}

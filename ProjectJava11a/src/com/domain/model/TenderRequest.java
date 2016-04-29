@@ -24,7 +24,7 @@ public class TenderRequest {
 	int id;
 	@ManyToOne
 	Client client;
-	Boolean status = false;
+	boolean status = false;
 	@Temporal(value = TemporalType.DATE)
 	Date startDate;
 	@Temporal(value = TemporalType.DATE)
@@ -64,7 +64,11 @@ public class TenderRequest {
 		this.subServiceType = subServiceType;
 	}
 
-	public Boolean getStatus() {
+	public int getId() {
+		return id;
+	}
+
+	public boolean getStatus() {
 		return status;
 	}
 

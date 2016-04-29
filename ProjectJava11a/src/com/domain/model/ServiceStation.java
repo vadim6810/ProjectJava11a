@@ -18,7 +18,6 @@ import org.hibernate.search.annotations.Indexed;
 @Indexed
 public class ServiceStation {
 	@Id
-	int id;//добавил
 	String email;
 	String password;
 	String name;
