@@ -1,5 +1,11 @@
 package com.domain.interfaces;
 
-public interface IServiceStation {
+import com.domain.model.ServiceStation;
 
+public interface IServiceStation {
+	boolean addServiceStation(ServiceStation servStat);
+	boolean removeServiceStation(int id);
+	Iterable<ServiceStation>getServiceStationByArea(String area);
+	Iterable<ServiceStation>getServiceStationByCity(String city);
+	
 }
