@@ -99,6 +99,7 @@ public class DatabaseController implements IPersistenceController {
 	}
 
 	@Override
+	@Transactional
 	public boolean addOfferToTender(int tenderId, String serviceEmail, float bid) {
 		boolean res = false;
 		TenderRequest tender = em.find(TenderRequest.class, tenderId);
