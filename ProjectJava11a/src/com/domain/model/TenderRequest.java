@@ -164,8 +164,13 @@ public class TenderRequest {
 		return tenderMembers;
 	}
 
+	public Map<String, Float> getBids() {
+		return bids;
+	}
+
 	public void addTenderMember(ServiceStation station, float price) {
 		tenderMembers.add(station);
+		bids.put(station.getEmail(), price);
 
 	}
 

@@ -1,7 +1,5 @@
 package com.domain.interfaces;
 
-import java.util.Set;
-
 import com.domain.model.ServiceStation;
 
 public interface IServiceStation {
@@ -17,8 +15,9 @@ public interface IServiceStation {
 
 	Iterable<ServiceStation> getServiceStationByVenicleTypes(String vehicleType);
 
-	Iterable<ServiceStation> getServiceStationByVenicleServiceTypes
-	                                    (String vehicleType, String carServiceTypes);
+	Iterable<ServiceStation> getServiceStationByVenicleServiceTypes(String vehicleType, String carServiceTypes);
+	
+	Iterable<ServiceStation> getServiceStationByName(String name);
 
 	ServiceStation editServiceStation(ServiceStation servStat);
 }

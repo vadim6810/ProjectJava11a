@@ -1,17 +1,11 @@
 package com.domain.dao;
 
-import javax.persistence.Query;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.domain.interfaces.IServiceStation;
 import com.domain.model.ServiceStation;
 
 public class ServiceStationController implements IServiceStation {
 
 	@Override
-	
 	public boolean addServiceStation(ServiceStation servStat) {
 		// TODO Auto-generated method stub
 		return false;
@@ -24,7 +18,7 @@ public class ServiceStationController implements IServiceStation {
 	}
 
 	@Override
-	public Iterable<ServiceStation> getServiceStationByArea(String...region) {
+	public Iterable<ServiceStation> getServiceStationByArea(String... region) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -55,6 +49,12 @@ public class ServiceStationController implements IServiceStation {
 
 	@Override
 	public ServiceStation editServiceStation(ServiceStation servStat) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterable<ServiceStation> getServiceStationByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
