@@ -31,7 +31,7 @@ public class DatabaseController implements IPersistenceController {
 	public boolean removeClient(String clientEmail) {
 		boolean res = false;
 		Client client = em.find(Client.class, clientEmail);
-		if (client == null) {
+		if (client != null) {
 			em.remove(client);
 			res = true;
 		}
@@ -104,28 +104,31 @@ public class DatabaseController implements IPersistenceController {
 		boolean res = false;
 		TenderRequest tender = em.find(TenderRequest.class, tenderId);
 		if (tender != null) {
-			ServiceStation station = em.find(ServiceStation.class, serviceEmail);
-			if (station != null) {
-				Float curBid = tender.getBids().get(serviceEmail);
-				if ((curBid == null) || (bid > curBid)) {
-					tender.addTenderMember(station, bid);
-					em.persist(tender);
-					res = true;
-				}
+			if (!tender.getStatus()) {
+				ServiceStation station = em.find(ServiceStation.class, serviceEmail);
+				if (station != null) {
+					Float curBid = tender.getBids().get(serviceEmail);
+					if ((curBid == null) || (bid > curBid)) {
+						tender.addTenderMember(station, bid);
+						em.persist(tender);
+						res = true;
+					}
 
+				}
 			}
 		}
 
 		return res;
 	}
 
-	/*@Override
-	@Transactional
-	public boolean removeOfferFromTender(int tenderId, String serviceEmail) {
-		TenderRequest tender = em.find(TenderRequest.class, tenderId);
-		ServiceStation station = em.find(ServiceStation.class, serviceEmail);
-		return false;
-	}*/
+	/*
+	 * @Override
+	 * 
+	 * @Transactional public boolean removeOfferFromTender(int tenderId, String
+	 * serviceEmail) { TenderRequest tender = em.find(TenderRequest.class,
+	 * tenderId); ServiceStation station = em.find(ServiceStation.class,
+	 * serviceEmail); return false; }
+	 */
 
 	@Override
 	@Transactional

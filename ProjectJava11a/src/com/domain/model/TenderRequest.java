@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.springframework.scheduling.annotation.Scheduled;
 
 @Entity
 @Indexed
@@ -49,10 +50,10 @@ public class TenderRequest {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TenderRequest(Client client, Date startDate, Date closeDate, String tenderDescription, String vehicleType,
-			Vehicle car, String area, String city, String carServiceType, String serviceType, String subServiceType) {
+	public TenderRequest(Client client, Date closeDate, String tenderDescription, String vehicleType, Vehicle car,
+			String area, String city, String carServiceType, String serviceType, String subServiceType) {
 		this.client = client;
-		this.startDate = startDate;
+		this.startDate = new Date();
 		this.closeDate = closeDate;
 		this.tenderDescription = tenderDescription;
 		this.vehicleType = vehicleType;
@@ -62,6 +63,7 @@ public class TenderRequest {
 		this.carServiceType = carServiceType;
 		this.serviceType = serviceType;
 		this.subServiceType = subServiceType;
+		checkstatus();
 	}
 
 	public int getId() {
@@ -78,10 +80,6 @@ public class TenderRequest {
 
 	public Date getStartDate() {
 		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
 	}
 
 	public Date getCloseDate() {
@@ -188,6 +186,15 @@ public class TenderRequest {
 			}
 		}
 		return res;
+	}
+
+	//Version temporary. Need include the to method getTenderResult
+	@Scheduled(fixedDelay = 43200000)
+	private void checkstatus() {
+		if ((new Date()).after(closeDate)) {
+			status = true;
+		}
+
 	}
 
 }
