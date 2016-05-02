@@ -15,10 +15,12 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 @Entity
 @Indexed
+@EnableScheduling
 public class TenderRequest {
 	@Id
 	@GeneratedValue
@@ -188,7 +190,7 @@ public class TenderRequest {
 		return res;
 	}
 
-	//Version temporary. Need include the to method getTenderResult
+	//Version temporary. Need include the to method getTenderResult. Use cron-utils. https://github.com/jmrozanec/cron-utils
 	@Scheduled(fixedDelay = 43200000)
 	private void checkstatus() {
 		if ((new Date()).after(closeDate)) {

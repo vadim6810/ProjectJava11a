@@ -7,17 +7,8 @@ public interface IServiceStation {
 
 	boolean removeServiceStation(String serviceEmail);
 
-	Iterable<ServiceStation> getServiceStationByArea(String... region);
+	Iterable<ServiceStation> getServiceStationsByRequest(String... requests);
 
-	Iterable<ServiceStation> getServiceStationByCity(String city);
-
-	Iterable<ServiceStation> getServiceStationByServiceTypes(String carServiceTypes);
-
-	Iterable<ServiceStation> getServiceStationByVenicleTypes(String vehicleType);
-
-	Iterable<ServiceStation> getServiceStationByVenicleServiceTypes(String vehicleType, String carServiceTypes);
-	
 	Iterable<ServiceStation> getServiceStationByName(String name);
 
-	ServiceStation editServiceStation(ServiceStation servStat);
 }

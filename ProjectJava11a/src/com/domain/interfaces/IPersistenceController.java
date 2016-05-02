@@ -11,8 +11,6 @@ public interface IPersistenceController {
 
 	Client getClientByEmail(String clientEmail);
 
-	Client editClient(Client client);
-
 	boolean putScore(String serviceEmail, String clientEmail, int score);
 
 	void putComment(String serviceEmail, String comment);
@@ -25,12 +23,8 @@ public interface IPersistenceController {
 
 	boolean removeTenderById(int id);
 
-	TenderRequest editTender(String clientEmail, TenderRequest tender);
-
 	Iterable<TenderRequest> getTendersListForService(String serviceEmail);
 
 	boolean addOfferToTender(int tenderId, String serviceEmail, float bid);
-
-	//boolean removeOfferFromTender(int tenderId, String serviceEmail);
 
 }

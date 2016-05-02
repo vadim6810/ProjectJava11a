@@ -45,13 +45,6 @@ public class DatabaseController implements IPersistenceController {
 
 	@Override
 	@Transactional
-	public Client editClient(Client client) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Transactional
 	public void addTender(String clientEmail, TenderRequest tender) {
 		if (em.find(TenderRequest.class, tender.getId()) == null) {
 			em.persist(tender);
@@ -86,13 +79,6 @@ public class DatabaseController implements IPersistenceController {
 	}
 
 	@Override
-	@Transactional
-	public TenderRequest editTender(String clientEmail, TenderRequest tender) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Iterable<TenderRequest> getTendersListForService(String serviceEmail) {
 		// TODO Auto-generated method stub
 		return null;
@@ -120,15 +106,6 @@ public class DatabaseController implements IPersistenceController {
 
 		return res;
 	}
-
-	/*
-	 * @Override
-	 * 
-	 * @Transactional public boolean removeOfferFromTender(int tenderId, String
-	 * serviceEmail) { TenderRequest tender = em.find(TenderRequest.class,
-	 * tenderId); ServiceStation station = em.find(ServiceStation.class,
-	 * serviceEmail); return false; }
-	 */
 
 	@Override
 	@Transactional

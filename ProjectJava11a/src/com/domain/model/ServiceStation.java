@@ -25,6 +25,7 @@ public class ServiceStation {
 	String phone;
 	String fax;
 	Set<String> vehicleType = new HashSet<String>();
+	Set<String> carModels = new HashSet<String>();
 	@Field
 	String area;
 	@Field
@@ -96,6 +97,22 @@ public class ServiceStation {
 
 	public void setCarServiceTypes(Set<String> carServiceTypes) {
 		this.carServiceTypes = carServiceTypes;
+	}
+
+	public Set<String> getVehicleType() {
+		return vehicleType;
+	}
+
+	public void setVehicleType(Set<String> vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+
+	public Set<String> getCarModels() {
+		return carModels;
+	}
+
+	public void setCarModels(Set<String> carModels) {
+		this.carModels = carModels;
 	}
 
 	public String getPhone() {
@@ -209,6 +226,14 @@ public class ServiceStation {
 
 	public boolean removeVehicleType(String carType) {
 		return vehicleType.remove(carType);
+	}
+
+	public boolean addCareModel(String carModel) {
+		return carModels.add(carModel);
+	}
+
+	public boolean removeCarModel(String carModel) {
+		return carModels.remove(carModel);
 	}
 
 	public boolean addTender(TenderRequest tender) {
