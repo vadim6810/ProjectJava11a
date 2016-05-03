@@ -23,7 +23,7 @@ public interface IPersistenceController {
 
 	boolean removeTenderById(int id);
 
-	Iterable<TenderRequest> getTendersListForService(String serviceEmail);
+	Iterable<TenderRequest> getTendersListForServiceStation(String serviceEmail);
 
 	boolean addOfferToTender(int tenderId, String serviceEmail, float bid);
 

@@ -1,7 +1,11 @@
 package com.domain.dao;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,9 @@ public class DatabaseController implements IPersistenceController {
 		boolean res = false;
 		if (em.find(Client.class, client.getEmail()) == null) {
 			em.persist(client);
+			res = true;
+		} else {
+			em.merge(client);
 			res = true;
 		}
 		return res;
@@ -48,10 +55,12 @@ public class DatabaseController implements IPersistenceController {
 	public void addTender(String clientEmail, TenderRequest tender) {
 		if (em.find(TenderRequest.class, tender.getId()) == null) {
 			em.persist(tender);
+		} else {
+			em.merge(tender);
 		}
 		Client client = em.find(Client.class, clientEmail);
 		client.addTender(tender);
-		em.persist(client);
+		em.merge(client);
 
 	}
 
@@ -79,9 +88,21 @@ public class DatabaseController implements IPersistenceController {
 	}
 
 	@Override
-	public Iterable<TenderRequest> getTendersListForService(String serviceEmail) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterable<TenderRequest> getTendersListForServiceStation(String serviceEmail) {
+		Set<TenderRequest> tendersForStation = new HashSet<TenderRequest>();
+		ServiceStation station = em.find(ServiceStation.class, serviceEmail);
+		Set<String> serviceTypes = station.getCarServiceTypes();
+		Query query = em.createQuery("select t from TenderRequest t");
+		Iterable<TenderRequest> tenders = query.getResultList();
+		for (TenderRequest tender : tenders) {
+			if (!tender.getStatus()) {
+				if (serviceTypes.contains(tender.getCarServiceType())) {
+					tendersForStation.add(tender);
+				}
+			}
+		}
+
+		return tendersForStation;
 	}
 
 	@Override
@@ -96,7 +117,7 @@ public class DatabaseController implements IPersistenceController {
 					Float curBid = tender.getBids().get(serviceEmail);
 					if ((curBid == null) || (bid > curBid)) {
 						tender.addTenderMember(station, bid);
-						em.persist(tender);
+						em.merge(tender);
 						res = true;
 					}
 
@@ -119,8 +140,8 @@ public class DatabaseController implements IPersistenceController {
 					if (client.addScoredStation(station)) {
 						station.addClientRate(client, score);
 						res = true;
-						em.persist(client);
-						em.persist(station);
+						em.merge(client);
+						em.merge(station);
 					}
 				}
 			}
@@ -133,7 +154,7 @@ public class DatabaseController implements IPersistenceController {
 	public void putComment(String serviceEmail, String comment) {
 		ServiceStation station = em.find(ServiceStation.class, serviceEmail);
 		station.addComment(comment);
-		em.persist(station);
+		em.merge(station);
 	}
 
 }
