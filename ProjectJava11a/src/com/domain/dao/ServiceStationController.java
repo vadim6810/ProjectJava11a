@@ -1,9 +1,6 @@
 package com.domain.dao;
 
 import javax.persistence.*;
-import javax.persistence.PersistenceContext;
-
-import org.hibernate.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.domain.interfaces.IServiceStation;
@@ -39,16 +36,16 @@ public class ServiceStationController implements IServiceStation {
 
 	@Override
 	public Iterable<ServiceStation> getServiceStationByName(String name) {
-		Query query = (Query) em.createQuery("select s from ServiceStation s where s.name=?1");
+		Query query = em.createQuery("select s from ServiceStation s where s.name=?1");
 		query.setParameter(1, name);
-		return ((javax.persistence.Query) query).getResultList();
+		return query.getResultList();
 	}
 
 	@Override
 	public Iterable<ServiceStation> getServiceStationsByRequest(String... requests) {
-		Query query = (Query) em.createQuery("select s from ServiceStation s where s.requests=?1");
+		Query query = em.createQuery("select s from ServiceStation s where s.requests=?1");
 		query.setParameter(1, requests);
-		return ((javax.persistence.Query) query).getResultList();
+		return query.getResultList();
 	}
 
 }
