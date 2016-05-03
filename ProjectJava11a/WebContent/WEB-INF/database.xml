@@ -15,9 +15,9 @@
 class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" 
 />
 <tx:annotation-driven transaction-manager="transactionManager"/>
-<task:annotation-driven/>
+<!-- <task:annotation-driven/> -->
 <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
     <property name="entityManagerFactory" ref="emf"/>
 </bean> 
-<bean id="dbController" class="com.domain.dao.DatabaseController"/>
+<!-- <bean id="dbController" class="com.domain.dao.DatabaseController"/> -->
 </beans>

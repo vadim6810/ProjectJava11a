@@ -53,14 +53,17 @@ public class DatabaseController implements IPersistenceController {
 	@Override
 	@Transactional
 	public void addTender(String clientEmail, TenderRequest tender) {
-		if (em.find(TenderRequest.class, tender.getId()) == null) {
-			em.persist(tender);
-		} else {
-			em.merge(tender);
-		}
 		Client client = em.find(Client.class, clientEmail);
-		client.addTender(tender);
-		em.merge(client);
+		if (client != null) {
+			if (em.find(TenderRequest.class, tender.getId()) == null) {
+				em.persist(tender);
+			} else {
+				em.merge(tender);
+			}
+
+			client.addTender(tender);
+			em.merge(client);
+		}
 
 	}
 

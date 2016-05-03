@@ -3,7 +3,12 @@ package com.domain.model;
 import java.io.Serializable;
 import java.util.*;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class ServicesDirectory implements Serializable {
+	@ElementCollection
 	Map<String, Set<String>> servicesDirectory;
 
 	public ServicesDirectory() {

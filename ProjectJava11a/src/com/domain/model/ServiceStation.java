@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,10 +22,13 @@ public class ServiceStation {
 	String email;
 	String password;
 	String name;
+	@ElementCollection
 	Set<String> carServiceTypes = new HashSet<String>();
 	String phone;
 	String fax;
+	@ElementCollection
 	Set<String> vehicleType = new HashSet<String>();
+	@ElementCollection
 	Set<String> carModels = new HashSet<String>();
 	@Field
 	String area;
@@ -38,6 +42,7 @@ public class ServiceStation {
 	float rating = 0;
 	int nRates = 0;
 	// need annotation Temporal?
+	@ElementCollection
 	Map<Date, String> comments = new HashMap<Date, String>();
 	@ManyToMany
 	Set<TenderRequest> tenders = new HashSet<TenderRequest>();

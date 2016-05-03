@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 @Entity
 @Indexed
-@EnableScheduling
+//@EnableScheduling
 public class TenderRequest {
 	@Id
 	@GeneratedValue
@@ -46,6 +47,7 @@ public class TenderRequest {
 	String subServiceType;
 	@ManyToMany(mappedBy = "tenders")
 	Set<ServiceStation> tenderMembers;
+	@ElementCollection
 	Map<String, Float> bids; // here String - email of ServiceStation
 
 	public TenderRequest() {
@@ -191,7 +193,7 @@ public class TenderRequest {
 	}
 
 	//Version temporary. Need include the to method getTenderResult. Use cron-utils. https://github.com/jmrozanec/cron-utils
-	@Scheduled(fixedDelay = 43200000)
+	//@Scheduled(fixedDelay = 43200000)
 	private void checkstatus() {
 		if ((new Date()).after(closeDate)) {
 			status = true;
