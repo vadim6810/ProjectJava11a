@@ -7,7 +7,7 @@ import com.domain.interfaces.IServiceStation;
 import com.domain.model.ServiceStation;
 
 public class ServiceStationController implements IServiceStation {
-	
+
 	@PersistenceContext(unitName = "springHibernate")
 	EntityManager em;
 
@@ -15,7 +15,7 @@ public class ServiceStationController implements IServiceStation {
 	@Transactional
 	public boolean addServiceStation(ServiceStation servStat) {
 		boolean res = false;
-		if (em.find(ServiceStation.class, servStat.getEmail())==null){
+		if (em.find(ServiceStation.class, servStat.getEmail()) == null) {
 			em.persist(servStat);
 			res = true;
 		}
@@ -27,9 +27,9 @@ public class ServiceStationController implements IServiceStation {
 	public boolean removeServiceStation(String serviceEmail) {
 		boolean res = false;
 		ServiceStation servStat = em.find(ServiceStation.class, serviceEmail);
-			if (serviceEmail !=null){
-				em.remove(servStat);
-				res = true;
+		if (serviceEmail != null) {
+			em.remove(servStat);
+			res = true;
 		}
 		return res;
 	}
@@ -47,5 +47,4 @@ public class ServiceStationController implements IServiceStation {
 		query.setParameter(1, requests);
 		return query.getResultList();
 	}
-
 }
