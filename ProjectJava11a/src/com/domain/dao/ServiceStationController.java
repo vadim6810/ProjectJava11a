@@ -26,6 +26,7 @@ public class ServiceStationController implements IServiceStation {
 	}
 
 	@Override
+	@Transactional
 	public boolean removeServiceStation(String serviceEmail) {
 		boolean res = false;
 		ServiceStation servStat = em.find(ServiceStation.class, serviceEmail);
