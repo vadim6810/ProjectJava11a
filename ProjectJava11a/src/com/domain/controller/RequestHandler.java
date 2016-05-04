@@ -6,8 +6,6 @@ import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.domain.interfaces.*;
@@ -18,11 +16,6 @@ public class RequestHandler {
 	private static final String COOKIE_SESSION_NAME = "sId";
 	private static final String TEST_URL = "test/test";
 
-	@RequestMapping({ "/" })
-	public String home() {
-		return "success";
-	}
-	
 	@Autowired
 	ApplicationContext ctx;
 	@Autowired
@@ -30,9 +23,13 @@ public class RequestHandler {
 	@Autowired
 	IServiceStation dbScenter;
 //	@Autowired
-//	IDummy dummy;
+	IDummy dummy;
 	
-	
+	@RequestMapping({"/"})
+	public String home() {
+		return "successForm";
+	}
+		
 // for success - status 200. instead of boolean
 	@RequestMapping(value = IRequestConstants.ADD_CLIENT, method = RequestMethod.PUT)
 	public void addClient(@RequestBody Client client) {
@@ -107,8 +104,8 @@ public class RequestHandler {
 	public void getServiceStationByName(@PathVariable String name) {
 		 dbScenter.getServiceStationByName(name);
 	}
-
-/*	@RequestMapping(value = TEST_URL, method = RequestMethod.GET)
+	
+	@RequestMapping(value = TEST_URL, method = RequestMethod.GET)
 	Map<String, Object> refreshGamesList(@CookieValue(value = COOKIE_SESSION_NAME, defaultValue = "null") String sId,
 			HttpServletResponse response) {
 		response = setHeaders(response);
@@ -154,5 +151,5 @@ public class RequestHandler {
 			e.printStackTrace();
 		}
 		return res;
-	}*/
+	}
 }
