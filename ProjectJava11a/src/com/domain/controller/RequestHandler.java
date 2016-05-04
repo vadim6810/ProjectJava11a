@@ -6,12 +6,15 @@ import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.domain.interfaces.*;
 import com.domain.model.*;
 
-@RestController
+//@RestController
+@Controller
+@RequestMapping("/")
 public class RequestHandler {
 	private static final String COOKIE_SESSION_NAME = "sId";
 	private static final String TEST_URL = "test/test";
