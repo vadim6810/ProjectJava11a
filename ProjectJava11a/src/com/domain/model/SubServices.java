@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 
-@Embeddable
+
 public class SubServices implements Serializable {
 	
 	@ElementCollection

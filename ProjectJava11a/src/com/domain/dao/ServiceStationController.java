@@ -1,5 +1,8 @@
 package com.domain.dao;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +46,7 @@ public class ServiceStationController implements IServiceStation {
 
 	@Override
 	public Iterable<ServiceStation> getServiceStationsByRequest(String... requests) {
+		Set<ServiceStation> res = new HashSet<ServiceStation>();
 		String regionQuery = "select s from ServiceStation s";
 		if (requests[0] != null || requests[1] != null) {
 			regionQuery = regionQuery + " where";
@@ -58,6 +62,29 @@ public class ServiceStationController implements IServiceStation {
 			}
 		}
 		Query query = em.createQuery(regionQuery);
-		return query.getResultList();
+		Iterable<ServiceStation> stations = query.getResultList();
+		
+		for(ServiceStation station : stations){
+			if((requests[2] != null) && !station.getCarServiceTypes().contains(requests[2])){
+				break;
+			}
+			
+			if((requests[3] != null) && !station.getCarModels().contains(requests[3])){
+				break;
+			}
+			
+			if((requests[4] != null) && !station.getVehicleType().contains(requests[4])){
+				break;
+			}
+			if((requests[5] != null) && !station.getServicesDirectory().getServicesDirectory().contains(requests[5])){
+				break;
+			}
+			if((requests[6] != null) && !station.getServicesDirectory().getSubServicesDirectory(requests[5]).contains(requests[6])){
+				break;
+			}
+			res.add(station);
+		}
+				
+		return res;
 	}
 }

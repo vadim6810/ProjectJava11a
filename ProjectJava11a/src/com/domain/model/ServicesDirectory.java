@@ -6,7 +6,6 @@ import java.util.*;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 
-@Embeddable
 public class ServicesDirectory implements Serializable {
 	@ElementCollection
 	Map<String, SubServices> servicesDirectory;

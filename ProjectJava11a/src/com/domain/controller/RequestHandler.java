@@ -35,7 +35,7 @@ public class RequestHandler {
 	
 // for success - status 200. instead of boolean
 	@RequestMapping(value = IRequestConstants.ADD_CLIENT, method = RequestMethod.PUT)
-	public void add—lient(@RequestBody Client client) {
+	public void addClient(@RequestBody Client client) {
 		 dbController.addClient(client);
 	}
 
