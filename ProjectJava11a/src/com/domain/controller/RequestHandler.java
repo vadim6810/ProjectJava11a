@@ -6,6 +6,8 @@ import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.domain.interfaces.*;
@@ -16,91 +18,97 @@ public class RequestHandler {
 	private static final String COOKIE_SESSION_NAME = "sId";
 	private static final String TEST_URL = "test/test";
 
+	@RequestMapping({ "/" })
+	public String home() {
+		return "success";
+	}
+	
 	@Autowired
 	ApplicationContext ctx;
 	@Autowired
 	IPersistenceController dbController;
 	@Autowired
 	IServiceStation dbScenter;
-	@Autowired
-	IDummy dummy;
-
+//	@Autowired
+//	IDummy dummy;
+	
+	
+// for success - status 200. instead of boolean
 	@RequestMapping(value = IRequestConstants.ADD_CLIENT, method = RequestMethod.PUT)
-	public @ResponseBody boolean addShop(@RequestBody Client client) {
-		return dbController.addClient(client);
+	public void add—lient(@RequestBody Client client) {
+		 dbController.addClient(client);
 	}
 
 	@RequestMapping(value = IRequestConstants.ADD_OFFER_TO_TENDER, method = RequestMethod.PUT)
-	public @ResponseBody boolean addOfferTender(@RequestBody int tenderId, String serviceEmail, float bid) {
-		return dbController.addOfferToTender(tenderId, serviceEmail, bid);
+	public void addOfferTender(@RequestBody int tenderId, String serviceEmail, float bid) {
+		dbController.addOfferToTender(tenderId, serviceEmail, bid);
 	}
 
-	@RequestMapping(value = IRequestConstants.REMOVE_CLIENT, method = RequestMethod.DELETE)
-	public @ResponseBody boolean removeClient(@RequestBody String clientEmail) {
-		return dbController.removeClient(clientEmail);
+	@RequestMapping(value = IRequestConstants.REMOVE_CLIENT+"/{clientEmail}", method = RequestMethod.DELETE)
+	public  void removeClient(@PathVariable String clientEmail) {
+		 dbController.removeClient(clientEmail);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_CLIENT_BY_EMAIL, method = RequestMethod.GET)
-	public @ResponseBody Client getClientByEmail(@RequestBody String clientEmail) {
-		return dbController.getClientByEmail(clientEmail);
+	@RequestMapping(value = IRequestConstants.GET_CLIENT_BY_EMAIL+"/{clientEmail}", method = RequestMethod.GET)
+	public  void getClientByEmail(@PathVariable String clientEmail) {
+		 dbController.getClientByEmail(clientEmail);
 	}
 
 	@RequestMapping(value = IRequestConstants.PUT_SCORE, method = RequestMethod.PUT)
-	public @ResponseBody boolean putScore(@RequestBody String serviceEmail, String clientEmail, int score) {
-		return dbController.putScore(serviceEmail, clientEmail, score);
+	public void putScore(@RequestBody String serviceEmail, String clientEmail, int score) {
+		dbController.putScore(serviceEmail, clientEmail, score);
 	}
 
 	@RequestMapping(value = IRequestConstants.PUT_COMMENT, method = RequestMethod.PUT)
-	public @ResponseBody void putComment(@RequestBody String serviceEmail, String comment) {
+	public void putComment(@RequestBody String serviceEmail, String comment) {
 		dbController.putComment(serviceEmail, comment);
 	}
 
 	@RequestMapping(value = IRequestConstants.ADD_TENDER, method = RequestMethod.PUT)
-	public @ResponseBody void addTender(@RequestBody String clientEmail, TenderRequest tender) {
+	public  void addTender(@RequestBody String clientEmail, TenderRequest tender) {
 		dbController.addTender(clientEmail, tender);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_TENDER_BY_ID, method = RequestMethod.GET)
-	public @ResponseBody TenderRequest getTenderById(@RequestBody int id) {
-		return dbController.getTenderById(id);
+	@RequestMapping(value = IRequestConstants.GET_TENDER_BY_ID+"/{id}", method = RequestMethod.GET)
+	public  void getTenderById(@PathVariable int id) {
+		 dbController.getTenderById(id);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_BY_CLIENT, method = RequestMethod.GET)
-	Iterable<TenderRequest> getTendersListByClient(@RequestBody String clientEmail) {
-		return dbController.getTendersListByClient(clientEmail);
+	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_BY_CLIENT+"/{clientEmail}", method = RequestMethod.GET)
+	public void getTendersListByClient(@PathVariable String clientEmail) {
+		dbController.getTendersListByClient(clientEmail);
 	}
 
-	@RequestMapping(value = IRequestConstants.REMOVE_TENDER_BY_ID, method = RequestMethod.DELETE)
-	public @ResponseBody boolean removeTenderById(@RequestBody int id) {
-		return dbController.removeTenderById(id);
+	@RequestMapping(value = IRequestConstants.REMOVE_TENDER_BY_ID+"/{id}", method = RequestMethod.DELETE)
+	public  void removeTenderById(@PathVariable int id) {
+		 dbController.removeTenderById(id);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_FOR_SERVICE, method = RequestMethod.GET)
-	public @ResponseBody Iterable<TenderRequest> getTendersListForService(@RequestBody String serviceEmail) {
-		return dbController.getTendersListForServiceStation(serviceEmail);
+	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_FOR_SERVICE+"/{serviceEmail}", method = RequestMethod.GET)
+	public void getTendersListForService(@PathVariable String serviceEmail) {
+		 dbController.getTendersListForServiceStation(serviceEmail);
 	}
-
 	@RequestMapping(value = IRequestConstants.ADD_SERVICE_STATION, method = RequestMethod.PUT)
-	public @ResponseBody boolean addServiceStation(@RequestBody ServiceStation servStat) {
-		return dbScenter.addServiceStation(servStat);
+	public  void addServiceStation(@RequestBody ServiceStation servStat) {
+		 dbScenter.addServiceStation(servStat);
 	}
 
-	@RequestMapping(value = IRequestConstants.REMOVE_SERVICE_STATION, method = RequestMethod.DELETE)
-	public @ResponseBody boolean removeServiceStation(@RequestBody String serviceEmail) {
+	@RequestMapping(value = IRequestConstants.REMOVE_SERVICE_STATION+"/{serviceEmail}", method = RequestMethod.DELETE)
+	public  boolean removeServiceStation(@PathVariable String serviceEmail) {
 		return dbScenter.removeServiceStation(serviceEmail);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_SERVICE_STATION_BY_REQUEST, method = RequestMethod.GET)
-	public @ResponseBody Iterable<ServiceStation> getServiceStationsByRequest(@RequestBody String... requests) {
-		return dbScenter.getServiceStationsByRequest(requests);
+	@RequestMapping(value = IRequestConstants.GET_SERVICE_STATION_BY_REQUEST+"/{requests}", method = RequestMethod.GET)
+	public  void getServiceStationsByRequest(@PathVariable String... requests) {
+		 dbScenter.getServiceStationsByRequest(requests);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_SERVICESTATION_BY_NAME, method = RequestMethod.GET)
-	public @ResponseBody Iterable<ServiceStation> getServiceStationByName(@RequestBody String name) {
-		return dbScenter.getServiceStationByName(name);
+	@RequestMapping(value = IRequestConstants.GET_SERVICESTATION_BY_NAME+"/{name}", method = RequestMethod.GET)
+	public void getServiceStationByName(@PathVariable String name) {
+		 dbScenter.getServiceStationByName(name);
 	}
 
-	@RequestMapping(value = TEST_URL, method = RequestMethod.GET)
+/*	@RequestMapping(value = TEST_URL, method = RequestMethod.GET)
 	Map<String, Object> refreshGamesList(@CookieValue(value = COOKIE_SESSION_NAME, defaultValue = "null") String sId,
 			HttpServletResponse response) {
 		response = setHeaders(response);
@@ -146,5 +154,5 @@ public class RequestHandler {
 			e.printStackTrace();
 		}
 		return res;
-	}
+	}*/
 }
