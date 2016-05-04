@@ -11,6 +11,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyTemporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -41,8 +43,8 @@ public class ServiceStation {
 	String avatar;
 	float rating = 0;
 	int nRates = 0;
-	// need annotation Temporal?
 	@ElementCollection
+	@MapKeyTemporal(value = TemporalType.DATE)
 	Map<Date, String> comments = new HashMap<Date, String>();
 	@ManyToMany
 	Set<TenderRequest> tenders = new HashSet<TenderRequest>();

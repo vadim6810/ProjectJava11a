@@ -9,19 +9,19 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ServicesDirectory implements Serializable {
 	@ElementCollection
-	Map<String, Set<String>> servicesDirectory;
+	Map<String, SubServices> servicesDirectory;
 
 	public ServicesDirectory() {
-		this.servicesDirectory = new HashMap<String, Set<String>>();
+		this.servicesDirectory = new HashMap<String, SubServices>();
 	}
 
-	public ServicesDirectory(Map<String, Set<String>> servicesDirectory) {
+	public ServicesDirectory(Map<String, SubServices> servicesDirectory) {
 		this.servicesDirectory = servicesDirectory;
 	}
 
 	public ServicesDirectory(Set<String> services) {
 		for (String service : services) {
-			this.servicesDirectory.put(service, new HashSet<String>());
+			this.servicesDirectory.put(service, new SubServices());
 		}
 	}
 	
@@ -33,35 +33,35 @@ public class ServicesDirectory implements Serializable {
 	}
 
 	public Set<String> getSubServicesDirectory(String service) {
-		return servicesDirectory.get(service);
+		return servicesDirectory.get(service).getSubServices();
 	}
 
 	public boolean addServiceType(String service) {
 		if (!servicesDirectory.containsKey(service)) {
-			servicesDirectory.put(service, new HashSet<String>());
+			servicesDirectory.put(service, new SubServices());
 			return true;
 		}
-		servicesDirectory.put(service, new HashSet<String>());
+		servicesDirectory.put(service, new SubServices());
 		return false;
 	}
 
 	public boolean addServiceType(String service, Set<String> subServices) {
 		if (!servicesDirectory.containsKey(service)) {
-			servicesDirectory.put(service, subServices);
+			servicesDirectory.put(service, new SubServices(subServices));
 			return true;
 		}
-		servicesDirectory.put(service, subServices);
+		servicesDirectory.put(service, new SubServices(subServices));
 		return false;
 	}
 
-	public Set<String> removeServiceType(String service) {
+	public SubServices removeServiceType(String service) {
 		return servicesDirectory.remove(service);
 	}
 
 	public boolean addSubServiceType(String service, String subService) {
 		if (!servicesDirectory.containsKey(service)) {
-			Set<String> subServices = servicesDirectory.get(service);
-			if (!subServices.add(subService)) {
+			SubServices subServices = servicesDirectory.get(service);
+			if (!subServices.getSubServices().add(subService)) {
 				servicesDirectory.put(service, subServices);
 				return true;
 			}
@@ -71,8 +71,8 @@ public class ServicesDirectory implements Serializable {
 
 	public boolean removeSubServiceType(String service, String subService) {
 		if (!servicesDirectory.containsKey(service)) {
-			Set<String> subServices = servicesDirectory.get(service);
-			if (!subServices.remove(subService)) {
+			SubServices subServices = servicesDirectory.get(service);
+			if (!subServices.getSubServices().remove(subService)) {
 				servicesDirectory.put(service, subServices);
 				return true;
 			}
