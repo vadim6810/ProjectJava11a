@@ -1,10 +1,11 @@
 package com.domain.model;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
 
 public class ServicesDirectory implements Serializable {
 	@ElementCollection
@@ -23,12 +24,14 @@ public class ServicesDirectory implements Serializable {
 			this.servicesDirectory.put(service, new SubServices());
 		}
 	}
-	
-	/*follow methods return true if the data was modified,
-	and return false otherwise*/
 
-	public Set<String> getServicesDirectory() {
-		return servicesDirectory.keySet();
+	/*
+	 * follow methods return true if the data was modified, and return false
+	 * otherwise
+	 */
+
+	public Map<String, SubServices> getServicesDirectory() {
+		return servicesDirectory;
 	}
 
 	public Set<String> getSubServicesDirectory(String service) {
@@ -36,47 +39,29 @@ public class ServicesDirectory implements Serializable {
 	}
 
 	public boolean addServiceType(String service) {
+		boolean res = false;
 		if (!servicesDirectory.containsKey(service)) {
 			servicesDirectory.put(service, new SubServices());
-			return true;
+			res = true;
 		}
-		servicesDirectory.put(service, new SubServices());
-		return false;
+		return res;
 	}
 
 	public boolean addServiceType(String service, Set<String> subServices) {
-		if (!servicesDirectory.containsKey(service)) {
-			servicesDirectory.put(service, new SubServices(subServices));
-			return true;
+		boolean res = false;
+		if (servicesDirectory.containsKey(service)) {
+			res = true;
 		}
 		servicesDirectory.put(service, new SubServices(subServices));
-		return false;
+		return res;
 	}
 
 	public SubServices removeServiceType(String service) {
 		return servicesDirectory.remove(service);
 	}
 
-	public boolean addSubServiceType(String service, String subService) {
-		if (!servicesDirectory.containsKey(service)) {
-			SubServices subServices = servicesDirectory.get(service);
-			if (!subServices.getSubServices().add(subService)) {
-				servicesDirectory.put(service, subServices);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean removeSubServiceType(String service, String subService) {
-		if (!servicesDirectory.containsKey(service)) {
-			SubServices subServices = servicesDirectory.get(service);
-			if (!subServices.getSubServices().remove(subService)) {
-				servicesDirectory.put(service, subServices);
-				return true;
-			}
-		}
-		return false;
+	public void addServiceType(String service, SubServices subServices) {
+		servicesDirectory.put(service, subServices);
 	}
 
 }

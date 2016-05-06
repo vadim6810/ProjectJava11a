@@ -3,7 +3,10 @@ package com.domain.dao;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.domain.interfaces.IServiceStation;
@@ -16,10 +19,13 @@ public class ServiceStationController implements IServiceStation {
 
 	@Override
 	@Transactional
-	public boolean addServiceStation(ServiceStation servStat) {
+	public boolean addServiceStation(ServiceStation serviceStation) {
 		boolean res = false;
-		if (em.find(ServiceStation.class, servStat.getEmail()) == null) {
-			em.persist(servStat);
+		if (em.find(ServiceStation.class, serviceStation.getEmail()) == null) {
+			em.persist(serviceStation);
+			res = true;
+		} else {
+			em.merge(serviceStation);
 			res = true;
 		}
 		return res;
@@ -29,9 +35,9 @@ public class ServiceStationController implements IServiceStation {
 	@Transactional
 	public boolean removeServiceStation(String serviceEmail) {
 		boolean res = false;
-		ServiceStation servStat = em.find(ServiceStation.class, serviceEmail);
-		if (serviceEmail != null) {
-			em.remove(servStat);
+		ServiceStation serviceStation = em.find(ServiceStation.class, serviceEmail);
+		if (serviceStation != null) {
+			em.remove(serviceStation);
 			res = true;
 		}
 		return res;
@@ -63,28 +69,49 @@ public class ServiceStationController implements IServiceStation {
 		}
 		Query query = em.createQuery(regionQuery);
 		Iterable<ServiceStation> stations = query.getResultList();
-		
-		for(ServiceStation station : stations){
-			if((requests[2] != null) && !station.getCarServiceTypes().contains(requests[2])){
+
+		boolean indicator = true;
+		for (int i = 2; i < requests.length; i++) {
+			if (requests[i] != null) {
+				indicator = false;
 				break;
 			}
-			
-			if((requests[3] != null) && !station.getCarModels().contains(requests[3])){
+		}
+
+		if (indicator) {
+			return stations;
+		}
+
+		for (ServiceStation station : stations) {
+			Set<String> currentSet = station.getCarServiceTypes();
+			if ((requests[2] != null) && currentSet != null && !currentSet.contains(requests[2])) {
 				break;
 			}
-			
-			if((requests[4] != null) && !station.getVehicleType().contains(requests[4])){
+
+			currentSet = station.getCarModels();
+			if ((requests[3] != null) && currentSet != null && !currentSet.contains(requests[3])) {
 				break;
 			}
-			if((requests[5] != null) && !station.getServicesDirectory().getServicesDirectory().contains(requests[5])){
+
+			currentSet = station.getVehicleType();
+			if ((requests[4] != null) && currentSet != null && !currentSet.contains(requests[4])) {
 				break;
 			}
-			if((requests[6] != null) && !station.getServicesDirectory().getSubServicesDirectory(requests[5]).contains(requests[6])){
+
+			if ((requests[5] != null) && station.getServicesDirectory() != null) {
+				currentSet = station.getServicesDirectory().getServicesDirectory().keySet();
+				if (!currentSet.contains(requests[5])) {
+					break;
+				}
+			}
+
+			currentSet = station.getServicesDirectory().getSubServicesDirectory(requests[5]);
+			if ((requests[6] != null) && currentSet != null && !currentSet.contains(requests[6])) {
 				break;
 			}
 			res.add(station);
 		}
-				
+
 		return res;
 	}
 }

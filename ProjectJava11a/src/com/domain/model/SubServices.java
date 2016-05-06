@@ -5,11 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-
 
 public class SubServices implements Serializable {
-	
+
 	@ElementCollection
 	Set<String> subServices = new HashSet<String>();
 
@@ -27,6 +25,14 @@ public class SubServices implements Serializable {
 
 	public void setSubServices(Set<String> subServices) {
 		this.subServices = subServices;
+	}
+
+	public boolean addSubService(String subSetvice) {
+		return subServices.add(subSetvice);
+	}
+
+	public boolean removeSubService(String subService) {
+		return subServices.remove(subService);
 	}
 
 }
