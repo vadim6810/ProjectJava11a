@@ -5,10 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 
 public class SubServices implements Serializable {
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	Set<String> subServices = new HashSet<String>();
 
 	public SubServices() {

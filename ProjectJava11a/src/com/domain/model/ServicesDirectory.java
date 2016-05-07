@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 
 public class ServicesDirectory implements Serializable {
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	Map<String, SubServices> servicesDirectory;
 
 	public ServicesDirectory() {

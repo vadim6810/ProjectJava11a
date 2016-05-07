@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyTemporal;
@@ -24,13 +25,13 @@ public class ServiceStation {
 	String email;
 	String password;
 	String name;
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	Set<String> carServiceTypes = new HashSet<String>();
 	String phone;
 	String fax;
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	Set<String> vehicleType = new HashSet<String>();
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	Set<String> carModels = new HashSet<String>();
 	@Field
 	String area;
@@ -43,12 +44,12 @@ public class ServiceStation {
 	String avatar;
 	float rating = 0;
 	int nRates = 0;
-	@ElementCollection
-	@MapKeyTemporal(value = TemporalType.DATE)
+	@ElementCollection(fetch = FetchType.EAGER)
+	@MapKeyTemporal(value = TemporalType.TIMESTAMP)
 	Map<Date, String> comments = new HashMap<Date, String>();
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	Set<TenderRequest> tenders = new HashSet<TenderRequest>();
-	@ManyToMany(mappedBy = "scoredStations")
+	@ManyToMany(mappedBy = "scoredStations", fetch = FetchType.EAGER)
 	Set<Client> clientRate = new HashSet<Client>();
 
 	/*

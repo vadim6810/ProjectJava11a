@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -21,7 +22,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 @Entity
 @Indexed
-//@EnableScheduling
+// @EnableScheduling
 public class TenderRequest {
 	@Id
 	@GeneratedValue
@@ -45,9 +46,9 @@ public class TenderRequest {
 	String carServiceType;
 	String serviceType;
 	String subServiceType;
-	@ManyToMany(mappedBy = "tenders")
+	@ManyToMany(mappedBy = "tenders", fetch = FetchType.EAGER)
 	Set<ServiceStation> tenderMembers;
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	Map<String, Float> bids; // here String - email of ServiceStation
 
 	public TenderRequest() {
@@ -192,8 +193,9 @@ public class TenderRequest {
 		return res;
 	}
 
-	//Version temporary. Need include the to method getTenderResult. Use cron-utils. https://github.com/jmrozanec/cron-utils
-	//@Scheduled(fixedDelay = 43200000)
+	// Version temporary. Need include the to method getTenderResult. Use
+	// cron-utils. https://github.com/jmrozanec/cron-utils
+	// @Scheduled(fixedDelay = 43200000)
 	private void checkstatus() {
 		if ((new Date()).after(closeDate)) {
 			status = true;

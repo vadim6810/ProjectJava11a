@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -16,9 +17,9 @@ public class Client {
 	String name;
 	String phone;
 	String avatar;
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
 	Set<TenderRequest> tenders = new HashSet<TenderRequest>();
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	Set<ServiceStation> scoredStations = new HashSet<ServiceStation>();
 
 	public Client() {
