@@ -17,8 +17,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 @Entity
 @Indexed
@@ -68,7 +66,7 @@ public class TenderRequest {
 		this.carServiceType = carServiceType;
 		this.serviceType = serviceType;
 		this.subServiceType = subServiceType;
-		checkstatus();
+
 	}
 
 	public int getId() {
@@ -179,7 +177,7 @@ public class TenderRequest {
 
 	public Map.Entry<String, Float> getTenderResult() {
 		Map.Entry<String, Float> res = null;
-		if ((status == true) || !(bids.isEmpty())) {
+		if (!(bids.isEmpty())) {
 			Set<Map.Entry<String, Float>> bidsSet = bids.entrySet();
 			Float min = Float.MAX_VALUE;
 			for (Map.Entry<String, Float> bid : bidsSet) {
@@ -191,16 +189,6 @@ public class TenderRequest {
 			}
 		}
 		return res;
-	}
-
-	// Version temporary. Need include the to method getTenderResult. Use
-	// cron-utils. https://github.com/jmrozanec/cron-utils
-	// @Scheduled(fixedDelay = 43200000)
-	private void checkstatus() {
-		if ((new Date()).after(closeDate)) {
-			status = true;
-		}
-
 	}
 
 }

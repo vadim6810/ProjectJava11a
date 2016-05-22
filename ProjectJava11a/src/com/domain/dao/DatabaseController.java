@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.domain.interfaces.IPersistenceController;
@@ -159,5 +160,5 @@ public class DatabaseController implements IPersistenceController {
 		station.addComment(comment);
 		em.merge(station);
 	}
-
+	
 }

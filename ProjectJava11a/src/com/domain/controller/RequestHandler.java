@@ -1,19 +1,30 @@
 package com.domain.controller;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.domain.interfaces.*;
-import com.domain.model.*;
+import com.domain.interfaces.IDummy;
+import com.domain.interfaces.IPersistenceController;
+import com.domain.interfaces.IRequestConstants;
+import com.domain.interfaces.IServiceStation;
+import com.domain.interfaces.ITask;
+import com.domain.model.Client;
+import com.domain.model.ServiceStation;
+import com.domain.model.TenderRequest;
 
-//@RestController
-@Controller
+//@Controller
+@RestController
 @RequestMapping("/")
 public class RequestHandler {
 	private static final String COOKIE_SESSION_NAME = "sId";
@@ -25,18 +36,21 @@ public class RequestHandler {
 	IPersistenceController dbController;
 	@Autowired
 	IServiceStation dbScenter;
-//	@Autowired
+	@Autowired
+	ITask dbTask;
+	// @Autowired
 	IDummy dummy;
-	
-	@RequestMapping({"/"})
+
+	@RequestMapping({ "/" })
 	public String home() {
-		return "successForm";
+		return "Successful Deployment!";
+		// return "successForm";
 	}
-		
-// for success - status 200. instead of boolean
+
+	// for success - status 200. instead of boolean
 	@RequestMapping(value = IRequestConstants.ADD_CLIENT, method = RequestMethod.PUT)
 	public void addClient(@RequestBody Client client) {
-		 dbController.addClient(client);
+		dbController.addClient(client);
 	}
 
 	@RequestMapping(value = IRequestConstants.ADD_OFFER_TO_TENDER, method = RequestMethod.PUT)
@@ -44,14 +58,14 @@ public class RequestHandler {
 		dbController.addOfferToTender(tenderId, serviceEmail, bid);
 	}
 
-	@RequestMapping(value = IRequestConstants.REMOVE_CLIENT+"/{clientEmail}", method = RequestMethod.DELETE)
-	public  void removeClient(@PathVariable String clientEmail) {
-		 dbController.removeClient(clientEmail);
+	@RequestMapping(value = IRequestConstants.REMOVE_CLIENT + "/{clientEmail}", method = RequestMethod.DELETE)
+	public void removeClient(@PathVariable String clientEmail) {
+		dbController.removeClient(clientEmail);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_CLIENT_BY_EMAIL+"/{clientEmail}", method = RequestMethod.GET)
-	public  void getClientByEmail(@PathVariable String clientEmail) {
-		 dbController.getClientByEmail(clientEmail);
+	@RequestMapping(value = IRequestConstants.GET_CLIENT_BY_EMAIL + "/{clientEmail}", method = RequestMethod.GET)
+	public void getClientByEmail(@PathVariable String clientEmail) {
+		dbController.getClientByEmail(clientEmail);
 	}
 
 	@RequestMapping(value = IRequestConstants.PUT_SCORE, method = RequestMethod.PUT)
@@ -65,49 +79,52 @@ public class RequestHandler {
 	}
 
 	@RequestMapping(value = IRequestConstants.ADD_TENDER, method = RequestMethod.PUT)
-	public  void addTender(@RequestBody String clientEmail, TenderRequest tender) {
+	public void addTender(@RequestBody String clientEmail, TenderRequest tender) {
 		dbController.addTender(clientEmail, tender);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_TENDER_BY_ID+"/{id}", method = RequestMethod.GET)
-	public  void getTenderById(@PathVariable int id) {
-		 dbController.getTenderById(id);
+	@RequestMapping(value = IRequestConstants.GET_TENDER_BY_ID + "/{id}", method = RequestMethod.GET)
+	public void getTenderById(@PathVariable int id) {
+		dbController.getTenderById(id);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_BY_CLIENT+"/{clientEmail}", method = RequestMethod.GET)
+	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_BY_CLIENT + "/{clientEmail}", method = RequestMethod.GET)
 	public void getTendersListByClient(@PathVariable String clientEmail) {
 		dbController.getTendersListByClient(clientEmail);
 	}
 
-	@RequestMapping(value = IRequestConstants.REMOVE_TENDER_BY_ID+"/{id}", method = RequestMethod.DELETE)
-	public  void removeTenderById(@PathVariable int id) {
-		 dbController.removeTenderById(id);
+	@RequestMapping(value = IRequestConstants.REMOVE_TENDER_BY_ID + "/{id}", method = RequestMethod.DELETE)
+	public void removeTenderById(@PathVariable int id) {
+		dbController.removeTenderById(id);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_FOR_SERVICE+"/{serviceEmail}", method = RequestMethod.GET)
+	@RequestMapping(value = IRequestConstants.GET_TENDERS_LIST_FOR_SERVICE
+			+ "/{serviceEmail}", method = RequestMethod.GET)
 	public void getTendersListForService(@PathVariable String serviceEmail) {
-		 dbController.getTendersListForServiceStation(serviceEmail);
-	}
-	@RequestMapping(value = IRequestConstants.ADD_SERVICE_STATION, method = RequestMethod.PUT)
-	public  void addServiceStation(@RequestBody ServiceStation servStat) {
-		 dbScenter.addServiceStation(servStat);
+		dbController.getTendersListForServiceStation(serviceEmail);
 	}
 
-	@RequestMapping(value = IRequestConstants.REMOVE_SERVICE_STATION+"/{serviceEmail}", method = RequestMethod.DELETE)
-	public  boolean removeServiceStation(@PathVariable String serviceEmail) {
+	@RequestMapping(value = IRequestConstants.ADD_SERVICE_STATION, method = RequestMethod.PUT)
+	public void addServiceStation(@RequestBody ServiceStation servStat) {
+		dbScenter.addServiceStation(servStat);
+	}
+
+	@RequestMapping(value = IRequestConstants.REMOVE_SERVICE_STATION + "/{serviceEmail}", method = RequestMethod.DELETE)
+	public boolean removeServiceStation(@PathVariable String serviceEmail) {
 		return dbScenter.removeServiceStation(serviceEmail);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_SERVICE_STATION_BY_REQUEST+"/{requests}", method = RequestMethod.GET)
-	public  void getServiceStationsByRequest(@PathVariable String... requests) {
-		 dbScenter.getServiceStationsByRequest(requests);
+	@RequestMapping(value = IRequestConstants.GET_SERVICE_STATION_BY_REQUEST
+			+ "/{requests}", method = RequestMethod.GET)
+	public void getServiceStationsByRequest(@PathVariable String... requests) {
+		dbScenter.getServiceStationsByRequest(requests);
 	}
 
-	@RequestMapping(value = IRequestConstants.GET_SERVICESTATION_BY_NAME+"/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = IRequestConstants.GET_SERVICESTATION_BY_NAME + "/{name}", method = RequestMethod.GET)
 	public void getServiceStationByName(@PathVariable String name) {
-		 dbScenter.getServiceStationByName(name);
+		dbScenter.getServiceStationByName(name);
 	}
-	
+
 	@RequestMapping(value = TEST_URL, method = RequestMethod.GET)
 	Map<String, Object> refreshGamesList(@CookieValue(value = COOKIE_SESSION_NAME, defaultValue = "null") String sId,
 			HttpServletResponse response) {
